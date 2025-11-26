@@ -9,15 +9,20 @@ This file is written for AI assistants (ChatGPT, GitHub agents, Copilot, etc.) t
    - **Affiliate Network** = offers, affiliates, clicks, conversions, revenue, payouts.
    - **Domain Steward** = domains, DNS, infra, and domain usage (tracking, lander, email, CDN).
    - **Messaging Core** = contacts, consent, outbound messages, channel-specific delivery (email, push).
+   - **Creative Generator** = templates, variants, creative assets, AI generation (does NOT send or track).
+   - **Offer Creator** = offer blueprints, flows, catalog, sync to network (orchestration layer).
 
    Do not mix responsibilities between services.
 
 2. **Respect ID & URL Contracts**
 
    - Always use the canonical IDs:
-     - `contactId`, `messageId`, `subscriptionId`, `clickId`, `conversionId`.
+     - `contactId`, `messageId`, `subscriptionId`, `clickId`, `conversionId`
+     - `creativeTemplateId`, `creativeVariantId`
+     - `offerBlueprintId`, `offerFlowId`, `offerId` (canonical in Affiliate Network)
    - Tracking URLs must match the format in `docs/contracts-ids-and-urls.md`.
    - In the Affiliate Network, map link query params `oid/cid/mid/ch/src` to `offerId` and `sub1–sub4`.
+   - Creative info can be encoded in `src` param (e.g., `src=campaign::tmpl=template_id::var=B`).
 
 3. **Preferred Stack**
 
@@ -62,7 +67,26 @@ When you (AI) add or change functionality:
 - Big picture: `docs/architecture.md`
 - ID and URL rules: `docs/contracts-ids-and-urls.md`
 - Events between services: `docs/contracts-events.md`
+- Creative system: `docs/creative-generator.md`
+- Offer orchestration: `docs/offer-creator.md`
 - Per-service responsibilities:
   - `services/affiliate-network/README.md`
   - `services/domain-steward/README.md`
   - `services/messaging-core/README.md`
+  - `services/creative-generator/README.md`
+  - `services/offer-creator/README.md`
+
+## Creative-Specific Guidance
+
+When working on templates, variants, or AI generation:
+- Use `services/creative-generator/` and `docs/creative-generator.md` as the source of truth
+- Creative IDs (`creativeTemplateId`, `creativeVariantId`) are canonical and must be preserved
+- Creative Generator only creates content; it does NOT send or track anything
+
+## Offer-Specific Guidance
+
+When working on offer creation, flows, or catalogs:
+- Use `services/offer-creator/` and `docs/offer-creator.md` as the source of truth
+- Offer Creator orchestrates but does NOT own the canonical `offerId` (that's Affiliate Network)
+- New offers like the Pickleball offer start as `offerBlueprintId` then sync to get `offerId`
+- Monetization flows (`offerFlowId`) define multi-step sequences across services

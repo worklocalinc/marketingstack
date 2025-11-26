@@ -1,17 +1,24 @@
 # Architecture Overview
 
-The WorkLocal Marketing Stack is a performance marketing system composed of three main services:
+The WorkLocal Marketing Stack is a performance marketing system composed of five main services:
 
 1. **Affiliate Network Platform**
 2. **Domain Steward**
 3. **Messaging Core**
+4. **Creative Generator (Creative Studio)**
+5. **Offer Creator (Offer Orchestrator)**
 
 ## Data Flow (End-to-End)
+
+0. **Offer setup (Offer Creator)**
+   - Offer blueprints are designed in **Offer Creator**
+   - Synced to **Affiliate Network** to get canonical `offerId`
+   - Connected to creatives, domains, and flows
 
 1. **User visits a lander**
    - Landers live on domains configured by **Domain Steward**.
    - Landers may include:
-     - Affiliate tracking links.
+     - Affiliate tracking links (using `offerId` from Offer Creator flow).
      - Web Push subscription prompts.
      - Email capture forms.
 
@@ -21,18 +28,29 @@ The WorkLocal Marketing Stack is a performance marketing system composed of thre
      - Web Push details are stored in `push_subscriptions`.
      - Channel-specific consent is stored in `contact_channels`.
 
-3. **Outbound messaging (Messaging Core)**
+3. **Creative selection (Creative Generator + Messaging Core)**
+   - When preparing to send a message:
+     - Messaging Core queries Creative Generator for appropriate template/variant
+     - Creative Generator returns:
+       - `creativeTemplateId` and `creativeVariantId`
+       - Content blocks with placeholders (subject, body, CTAs)
+     - Messaging Core records which creative was selected
+
+4. **Outbound messaging (Messaging Core)**
    - For each email or push send:
-     - Create an `outbound_messages` row with a new `messageId`.
+     - Create an `outbound_messages` row with:
+       - New `messageId`
+       - `creativeTemplateId` and `creativeVariantId`
      - Generate tracking URLs using:
        - `cid` = `contactId`
        - `mid` = `messageId`
        - `ch`  = channel (`email` | `push` | later `sms`)
        - `oid` = offerId (from Affiliate Network)
-       - `src` = optional campaign/source code
+       - `src` = optional campaign/source/creative encoding
+     - Replace placeholders in creative content
      - Email is sent via ESP (e.g., Resend). Push is sent via Web Push.
 
-4. **Click tracking (Affiliate Network)**
+5. **Click tracking (Affiliate Network)**
    - The tracking link goes to the Affiliate Network click endpoint:
      - `https://TRK_DOMAIN/click?...`
    - The Affiliate Network:
@@ -44,20 +62,20 @@ The WorkLocal Marketing Stack is a performance marketing system composed of thre
        - `sub4` = optional `src`
      - Redirects to the relevant offer or lander domain.
 
-5. **Conversion tracking (Affiliate Network)**
+6. **Conversion tracking (Affiliate Network)**
    - When a conversion happens:
      - The Affiliate Network records a `conversion` tied to a `clickId`.
      - SubIDs (`sub1–sub4`) are propagated to the conversion record.
      - Revenue, payout, profit are computed and stored.
 
-6. **Event ingestion (Messaging Core)**
+7. **Event ingestion (Messaging Core)**
    - The Affiliate Network emits events (e.g. `lead.created`, `sale.created`) to:
      - `Messaging Core` via `POST /api/events/affiliate`.
    - Messaging Core:
      - Uses `contactId` and `messageId` from subIDs to attach revenue back to people and messages.
      - Enables LTV, per-message ROI, and per-channel performance.
 
-7. **Domain management (Domain Steward)**
+8. **Domain management (Domain Steward)**
    - Domain Steward manages:
      - Domain inventory (owned and rented).
      - DNS configuration via Cloudflare.
@@ -98,6 +116,38 @@ The WorkLocal Marketing Stack is a performance marketing system composed of thre
     - tracking (`trk.*`)
     - landers (`offer.*`, vertical-specific domains)
     - email sending (`mail.*`)
+
+### Creative Generator (Creative Studio)
+
+- Owns:
+  - `creative_templates`, `creative_variants`
+  - AI generation prompts and workflows
+  - Creative performance metrics
+- Does NOT:
+  - Send messages (that's Messaging Core)
+  - Track clicks/conversions (that's Affiliate Network)
+- Provides:
+  - Templates and variants for all channels (email, push, ads, landers)
+  - AI-assisted creative generation
+  - A/B testing variants
+  - Performance-based variant selection
+
+### Offer Creator (Offer Orchestrator)
+
+- Owns:
+  - `offer_blueprints`, `offer_flows`
+  - Offer catalog and monetization sequences
+  - Blueprint to network synchronization
+- Does NOT:
+  - Track clicks/conversions (that's Affiliate Network)
+  - Own canonical `offerId` (that's Affiliate Network)
+  - Send messages (that's Messaging Core)
+  - Create content (that's Creative Generator)
+- Provides:
+  - Offer blueprint design and management
+  - Sync to Affiliate Network to create real offers
+  - Multi-step monetization flow definitions
+  - Offer catalog aggregation from all sources
 
 ## Tech Stack Expectations
 

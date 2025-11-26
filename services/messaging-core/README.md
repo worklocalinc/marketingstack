@@ -59,6 +59,8 @@ outbound_messages:
   - contactId
   - channel (email/push/sms)
   - templateId
+  - creativeTemplateId  -- from Creative Generator
+  - creativeVariantId   -- from Creative Generator
   - subject
   - content
   - status (queued/sent/failed/bounced/opened/clicked)

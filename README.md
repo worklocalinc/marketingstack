@@ -5,7 +5,7 @@ It is designed so **humans and AI agents** can understand how the pieces fit tog
 
 ## High-Level Mental Model
 
-Three main services:
+Five main services:
 
 1. **Affiliate Network Platform**  
    - Owns offers, affiliates, advertisers, clicks, conversions, revenue, payouts.  
@@ -20,11 +20,23 @@ Three main services:
    - Sends messages across channels (email, web push, SMS later).  
    - Tracks outbound messages and ties them to clicks and conversions via tracking URLs.
 
+4. **Creative Generator (Creative Studio)**  
+   - Owns templates, variants, and creative assets for all channels.  
+   - Provides AI-assisted creative generation and optimization.  
+   - Does NOT send messages or track performance directly.
+
+5. **Offer Creator (Offer Orchestrator)**  
+   - Designs offer blueprints and monetization flows.  
+   - Syncs offers into Affiliate Network and maintains catalog.  
+   - Connects offers to domains, creatives, and messaging sequences.
+
 Always keep this split:
 
 - **Messaging Core** = who we talked to and what we sent.  
 - **Affiliate Network** = what they did and how much money it made.  
-- **Domain Steward** = where it lives and under which domains.
+- **Domain Steward** = where it lives and under which domains.  
+- **Creative Generator** = what to say and how it looks.  
+- **Offer Creator** = which offers exist and how they're orchestrated.
 
 ## Canonical IDs
 
@@ -35,6 +47,11 @@ These IDs must be preserved end-to-end:
 - `subscriptionId` → Messaging Core → `push_subscriptions.id`
 - `clickId` → Affiliate Network → `clicks.clickId`
 - `conversionId` → Affiliate Network → `conversions.id`
+- `creativeTemplateId` → Creative Generator → `creative_templates.id`
+- `creativeVariantId` → Creative Generator → `creative_variants.id`
+- `offerBlueprintId` → Offer Creator → `offer_blueprints.id`
+- `offerFlowId` → Offer Creator → `offer_flows.id`
+- `offerId` → Affiliate Network → `offers.id` (canonical)
 
 These IDs are passed between services via URLs and events.  
 They are the backbone for attribution and LTV calculations.
@@ -67,7 +84,11 @@ Inside the Affiliate Network click handler, map query params:
 - `cid` → `sub1` (contactId)
 - `mid` → `sub2` (messageId)
 - `ch` → `sub3` (channel)
-- `src` → `sub4` (optional campaign/source)
+- `src` → `sub4` (optional campaign/source/creative info)
+
+The `src` parameter can encode creative information to avoid breaking the URL contract:
+- `src=welcome_series_1::tmpl=welcome_email_v1::var=B`
+- `src=push_daily_deal::var=A`
 
 `sub1–sub4` must propagate from clicks → conversions.
 
@@ -79,12 +100,16 @@ See per-service docs:
 - `services/affiliate-network/README.md`
 - `services/domain-steward/README.md`
 - `services/messaging-core/README.md`
+- `services/creative-generator/README.md`
+- `services/offer-creator/README.md`
 
 ## Architecture & Contracts
 
 - `docs/architecture.md` – end-to-end data flow & responsibilities.
 - `docs/contracts-ids-and-urls.md` – ID rules & tracking URLs.
 - `docs/contracts-events.md` – event formats between services.
+- `docs/creative-generator.md` – creative system overview and integration.
+- `docs/offer-creator.md` – offer orchestration and blueprint management.
 
 ## How AI Tools Should Use This Repo
 
