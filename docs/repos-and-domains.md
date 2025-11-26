@@ -20,35 +20,31 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 
 | Domain | Service | Purpose |
 |--------|---------|---------|
-| `trk.worklocal.dev` | Affiliate Network | Click tracking endpoints |
-| `domains.worklocal.ai` | Domain Steward | Domain management API |
-| `msg.worklocal.dev` | Messaging Core | Contact & messaging API |
-| `creative.worklocal.dev` | Creative Generator | Template & variant API |
-| `offers.worklocal.dev` | Offer Creator | Offer blueprint API |
-| `seeder.worklocal.dev` | Email Seeder | Test email management API |
+| `adjump.com` | Affiliate Network | Click tracking endpoints |
+| `domains.adjump.com` | Domain Steward | Domain management API |
+| `messages.adjump.com` | Messaging Core | Contact & messaging API |
+| `creativebuilder.adjump.com` | Creative Generator | Template & variant API |
+| `houseoffers.adjump.com` | Offer Creator | Offer blueprint API |
+| `seed.adjump.com` | Email Seeder | Test email management API |
 
 ### Tracking Domains (Managed by Domain Steward)
 
 | Domain Pattern | Purpose | Example |
 |----------------|---------|---------|
-| `trk.*` | Click tracking | `trk.offers.example` |
-| `go.*` | Short redirect links | `go.worklocal.dev/abc` |
-| `t.*` | Tracking pixels | `t.worklocal.dev/px` |
+| `adjump.com/*` | Click tracking | `adjump.com/click` |
+| `go.*` | Short redirect links | Configured per campaign |
 
 ### Email Sending Domains
 
 | Domain | Purpose | Provider |
 |--------|---------|----------|
-| `mail.worklocal.dev` | Transactional email | Resend |
-| `news.worklocal.dev` | Newsletter sending | Resend |
-| `notify.worklocal.dev` | Notification emails | Resend |
+| `messages.adjump.com` | Transactional email | Resend |
 
 ### Lander Domains
 
 | Domain | Vertical | Notes |
 |--------|----------|-------|
-| `*.offers.example` | General offers | Managed by Domain Steward |
-| Vertical-specific | Job, finance, health | Configured per campaign |
+| Configured per campaign | Job, finance, health | Managed by Domain Steward |
 
 ## Environments
 
@@ -67,23 +63,23 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 
 | Service | URL | Database |
 |---------|-----|----------|
-| Affiliate Network | `trk.staging.worklocal.dev` | Neon staging branch |
-| Domain Steward | `domains.staging.worklocal.ai` | Neon staging branch |
-| Messaging Core | `msg.staging.worklocal.dev` | Neon staging branch |
-| Creative Generator | `creative.staging.worklocal.dev` | Neon staging branch |
-| Offer Creator | `offers.staging.worklocal.dev` | Neon staging branch |
-| Email Seeder | `seeder.staging.worklocal.dev` | Neon staging branch |
+| Affiliate Network | `staging.adjump.com` | Neon staging branch |
+| Domain Steward | `staging.domains.adjump.com` | Neon staging branch |
+| Messaging Core | `staging.messages.adjump.com` | Neon staging branch |
+| Creative Generator | `staging.creativebuilder.adjump.com` | Neon staging branch |
+| Offer Creator | `staging.houseoffers.adjump.com` | Neon staging branch |
+| Email Seeder | `staging.seed.adjump.com` | Neon staging branch |
 
 ### Production
 
 | Service | URL | Database |
 |---------|-----|----------|
-| Affiliate Network | `trk.worklocal.dev` | Neon production |
-| Domain Steward | `domains.worklocal.ai` | Neon production |
-| Messaging Core | `msg.worklocal.dev` | Neon production |
-| Creative Generator | `creative.worklocal.dev` | Neon production |
-| Offer Creator | `offers.worklocal.dev` | Neon production |
-| Email Seeder | `seeder.worklocal.dev` | Neon production |
+| Affiliate Network | `adjump.com` | Neon production |
+| Domain Steward | `domains.adjump.com` | Neon production |
+| Messaging Core | `messages.adjump.com` | Neon production |
+| Creative Generator | `creativebuilder.adjump.com` | Neon production |
+| Offer Creator | `houseoffers.adjump.com` | Neon production |
+| Email Seeder | `seed.adjump.com` | Neon production |
 
 ## Environment Variables by Service
 
@@ -100,12 +96,12 @@ LOG_LEVEL=debug|info|warn|error
 
 ```bash
 # Core
-CLICK_DOMAIN=trk.worklocal.dev
+CLICK_DOMAIN=adjump.com
 POSTBACK_SECRET=...
 
 # Service URLs
-MESSAGING_CORE_URL=https://msg.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.ai
+MESSAGING_CORE_URL=https://messages.adjump.com
+DOMAIN_STEWARD_URL=https://domains.adjump.com
 ```
 
 ### Domain Steward
@@ -127,17 +123,17 @@ GITHUB_TOKEN=...  # For DNS-as-code
 ```bash
 # ESP (Email)
 RESEND_API_KEY=...
-FROM_EMAIL=hello@mail.worklocal.dev
+FROM_EMAIL=hello@messages.adjump.com
 
 # Web Push (VAPID)
 VAPID_PUBLIC_KEY=...
 VAPID_PRIVATE_KEY=...
-VAPID_SUBJECT=mailto:push@worklocal.dev
+VAPID_SUBJECT=mailto:push@adjump.com
 
 # Service URLs
-AFFILIATE_NETWORK_URL=https://trk.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.ai
-CREATIVE_GENERATOR_URL=https://creative.worklocal.dev
+AFFILIATE_NETWORK_URL=https://adjump.com
+DOMAIN_STEWARD_URL=https://domains.adjump.com
+CREATIVE_GENERATOR_URL=https://creativebuilder.adjump.com
 ```
 
 ### Creative Generator
@@ -148,21 +144,21 @@ OPENAI_API_KEY=...
 ANTHROPIC_API_KEY=...
 
 # Asset Storage
-CDN_URL=https://cdn.worklocal.dev
+CDN_URL=https://cdn.adjump.com
 ASSET_BUCKET=...
 
 # Service URLs
-MESSAGING_CORE_URL=https://msg.worklocal.dev
+MESSAGING_CORE_URL=https://messages.adjump.com
 ```
 
 ### Offer Creator
 
 ```bash
 # Service URLs
-AFFILIATE_NETWORK_URL=https://trk.worklocal.dev
-CREATIVE_GENERATOR_URL=https://creative.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.ai
-MESSAGING_CORE_URL=https://msg.worklocal.dev
+AFFILIATE_NETWORK_URL=https://adjump.com
+CREATIVE_GENERATOR_URL=https://creativebuilder.adjump.com
+DOMAIN_STEWARD_URL=https://domains.adjump.com
+MESSAGING_CORE_URL=https://messages.adjump.com
 ```
 
 ### Email Seeder
@@ -178,9 +174,9 @@ IMAP_DEFAULT_PORT=993
 ENCRYPTION_KEY=...  # For credential storage
 
 # Service URLs
-MESSAGING_CORE_URL=https://msg.worklocal.dev
-AFFILIATE_NETWORK_URL=https://trk.worklocal.dev
-OFFER_CREATOR_URL=https://offers.worklocal.dev
+MESSAGING_CORE_URL=https://messages.adjump.com
+AFFILIATE_NETWORK_URL=https://adjump.com
+OFFER_CREATOR_URL=https://houseoffers.adjump.com
 ```
 
 ## Service Communication Matrix
