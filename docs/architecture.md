@@ -1,12 +1,13 @@
 # Architecture Overview
 
-The WorkLocal Marketing Stack is a performance marketing system composed of five main services:
+The WorkLocal Marketing Stack is a performance marketing system composed of six main services:
 
 1. **Affiliate Network Platform**
 2. **Domain Steward**
 3. **Messaging Core**
 4. **Creative Generator (Creative Studio)**
 5. **Offer Creator (Offer Orchestrator)**
+6. **Email Seeder**
 
 ## Data Flow (End-to-End)
 
@@ -148,6 +149,22 @@ The WorkLocal Marketing Stack is a performance marketing system composed of five
   - Sync to Affiliate Network to create real offers
   - Multi-step monetization flow definitions
   - Offer catalog aggregation from all sources
+
+### Email Seeder
+
+- Owns:
+  - `test_accounts`, `test_emails`
+  - `inbox_messages`, `qa_test_runs`
+  - Managed mailbox access and QA workflows
+- Does NOT:
+  - Send production emails (that's Messaging Core)
+  - Manage real contacts (that's Messaging Core)
+  - Track conversions (that's Affiliate Network)
+- Provides:
+  - Pre-configured test email addresses for QA
+  - Inbox monitoring for test verification
+  - Automated signup and offer flow testing
+  - End-to-end validation before production
 
 ## Tech Stack Expectations
 

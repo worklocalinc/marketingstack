@@ -11,6 +11,7 @@ This file is written for AI assistants (ChatGPT, GitHub agents, Copilot, etc.) t
    - **Messaging Core** = contacts, consent, outbound messages, channel-specific delivery (email, push).
    - **Creative Generator** = templates, variants, creative assets, AI generation (does NOT send or track).
    - **Offer Creator** = offer blueprints, flows, catalog, sync to network (orchestration layer).
+   - **Email Seeder** = test emails, QA workflows, inbox monitoring (does NOT send production messages).
 
    Do not mix responsibilities between services.
 
@@ -20,6 +21,7 @@ This file is written for AI assistants (ChatGPT, GitHub agents, Copilot, etc.) t
      - `contactId`, `messageId`, `subscriptionId`, `clickId`, `conversionId`
      - `creativeTemplateId`, `creativeVariantId`
      - `offerBlueprintId`, `offerFlowId`, `offerId` (canonical in Affiliate Network)
+     - `testEmailId`, `testAccountId` (Email Seeder)
    - Tracking URLs must match the format in `docs/contracts-ids-and-urls.md`.
    - In the Affiliate Network, map link query params `oid/cid/mid/ch/src` to `offerId` and `sub1–sub4`.
    - Creative info can be encoded in `src` param (e.g., `src=campaign::tmpl=template_id::var=B`).
@@ -69,12 +71,14 @@ When you (AI) add or change functionality:
 - Events between services: `docs/contracts-events.md`
 - Creative system: `docs/creative-generator.md`
 - Offer orchestration: `docs/offer-creator.md`
+- Repositories & domains: `docs/repos-and-domains.md`
 - Per-service responsibilities:
   - `services/affiliate-network/README.md`
   - `services/domain-steward/README.md`
   - `services/messaging-core/README.md`
   - `services/creative-generator/README.md`
   - `services/offer-creator/README.md`
+  - `services/email-seeder/README.md`
 
 ## Creative-Specific Guidance
 
@@ -90,3 +94,12 @@ When working on offer creation, flows, or catalogs:
 - Offer Creator orchestrates but does NOT own the canonical `offerId` (that's Affiliate Network)
 - New offers like the Pickleball offer start as `offerBlueprintId` then sync to get `offerId`
 - Monetization flows (`offerFlowId`) define multi-step sequences across services
+
+## Email Seeder-Specific Guidance
+
+When working on test emails, QA workflows, or inbox monitoring:
+- Use `services/email-seeder/` and `docs/email-seeder.md` as the source of truth
+- Email Seeder provides test emails but does NOT send production messages (that's Messaging Core)
+- Test IDs (`testEmailId`, `testAccountId`) are used for QA workflows
+- QA test runs can verify the full flow: signup → email received → click tracked → conversion recorded
+- Test emails should be clearly tagged and never mixed with production contacts

@@ -1,11 +1,24 @@
 # WorkLocal Marketing Stack
 
-This repo documents the core architecture for James's performance marketing platform.  
+This repo documents the core architecture for James's performance marketing platform.
 It is designed so **humans and AI agents** can understand how the pieces fit together and extend them safely.
+
+## Repositories & Domains
+
+| Service | Repository | Production Domain | Purpose |
+|---------|------------|-------------------|---------|
+| Affiliate Network | `github.com/worklocalinc/affiliate-network` | `trk.worklocal.dev` | Click/conversion tracking, revenue attribution |
+| Domain Steward | `github.com/worklocalinc/domain-steward` | `domains.worklocal.dev` | Domain inventory, DNS management |
+| Messaging Core | `github.com/worklocalinc/messaging-core` | `msg.worklocal.dev` | Contacts, email/push sending |
+| Creative Generator | `github.com/worklocalinc/creative-generator` | `creative.worklocal.dev` | Templates, AI creative generation |
+| Offer Creator | `github.com/worklocalinc/offer-creator` | `offers.worklocal.dev` | Offer blueprints, monetization flows |
+| Email Seeder | `github.com/worklocalinc/email-seeder` | `seeder.worklocal.dev` | Test emails, signup testing, QA |
+
+> See `docs/repos-and-domains.md` for full domain inventory and environment details.
 
 ## High-Level Mental Model
 
-Five main services:
+Six main services:
 
 1. **Affiliate Network Platform**  
    - Owns offers, affiliates, advertisers, clicks, conversions, revenue, payouts.  
@@ -25,18 +38,24 @@ Five main services:
    - Provides AI-assisted creative generation and optimization.  
    - Does NOT send messages or track performance directly.
 
-5. **Offer Creator (Offer Orchestrator)**  
-   - Designs offer blueprints and monetization flows.  
-   - Syncs offers into Affiliate Network and maintains catalog.  
+5. **Offer Creator (Offer Orchestrator)**
+   - Designs offer blueprints and monetization flows.
+   - Syncs offers into Affiliate Network and maintains catalog.
    - Connects offers to domains, creatives, and messaging sequences.
+
+6. **Email Seeder**
+   - Manages pre-configured test email accounts for QA workflows.
+   - Provides ready-to-use emails for signups, offer testing, and automation validation.
+   - Does NOT send production messages (that's Messaging Core).
 
 Always keep this split:
 
-- **Messaging Core** = who we talked to and what we sent.  
-- **Affiliate Network** = what they did and how much money it made.  
-- **Domain Steward** = where it lives and under which domains.  
-- **Creative Generator** = what to say and how it looks.  
+- **Messaging Core** = who we talked to and what we sent.
+- **Affiliate Network** = what they did and how much money it made.
+- **Domain Steward** = where it lives and under which domains.
+- **Creative Generator** = what to say and how it looks.
 - **Offer Creator** = which offers exist and how they're orchestrated.
+- **Email Seeder** = test accounts for QA and validation.
 
 ## Canonical IDs
 
@@ -52,6 +71,8 @@ These IDs must be preserved end-to-end:
 - `offerBlueprintId` → Offer Creator → `offer_blueprints.id`
 - `offerFlowId` → Offer Creator → `offer_flows.id`
 - `offerId` → Affiliate Network → `offers.id` (canonical)
+- `testEmailId` → Email Seeder → `test_emails.id`
+- `testAccountId` → Email Seeder → `test_accounts.id`
 
 These IDs are passed between services via URLs and events.  
 They are the backbone for attribution and LTV calculations.
@@ -102,14 +123,17 @@ See per-service docs:
 - `services/messaging-core/README.md`
 - `services/creative-generator/README.md`
 - `services/offer-creator/README.md`
+- `services/email-seeder/README.md`
 
 ## Architecture & Contracts
 
 - `docs/architecture.md` – end-to-end data flow & responsibilities.
+- `docs/repos-and-domains.md` – repositories, domains, and environments.
 - `docs/contracts-ids-and-urls.md` – ID rules & tracking URLs.
 - `docs/contracts-events.md` – event formats between services.
 - `docs/creative-generator.md` – creative system overview and integration.
 - `docs/offer-creator.md` – offer orchestration and blueprint management.
+- `docs/email-seeder.md` – test email management and QA workflows.
 
 ## How AI Tools Should Use This Repo
 
