@@ -6,13 +6,13 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 
 | Service | Repository | Description |
 |---------|------------|-------------|
-| **Marketing Stack** | `github.com/worklocalinc/marketingstack` | Architecture docs, contracts, central reference |
-| **Affiliate Network** | `github.com/worklocalinc/affiliate-network` | Click tracking, conversions, revenue attribution |
-| **Domain Steward** | `github.com/worklocalinc/domain-steward` | Domain inventory, DNS, infrastructure management |
-| **Messaging Core** | `github.com/worklocalinc/messaging-core` | Contacts, email/push sending, outbound messages |
-| **Creative Generator** | `github.com/worklocalinc/creative-generator` | Templates, variants, AI creative generation |
-| **Offer Creator** | `github.com/worklocalinc/offer-creator` | Offer blueprints, monetization flows, catalog |
-| **Email Seeder** | `github.com/worklocalinc/email-seeder` | Test emails, QA workflows, inbox monitoring |
+| **Marketing Stack** | `worklocalinc/marketingstack` | Architecture docs, contracts, central reference |
+| **Affiliate Network** | `worklocalinc/AffiliateTracker` | Click tracking, conversions, revenue attribution |
+| **Domain Steward** | `worklocalinc/domains.worklocal.ai` | Domain inventory, DNS, infrastructure management |
+| **Messaging Core** | `work-local-inc/messigingcore` | Contacts, email/push sending, outbound messages |
+| **Creative Generator** | `work-local-inc/creatives` | Templates, variants, AI creative generation |
+| **Offer Creator** | `work-local-inc/superaffiliatesystem` | Offer blueprints, monetization flows, catalog |
+| **Email Seeder** | `work-local-inc/seed` | Test emails, QA workflows, inbox monitoring |
 
 ## Domain Inventory
 
@@ -21,7 +21,7 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 | Domain | Service | Purpose |
 |--------|---------|---------|
 | `trk.worklocal.dev` | Affiliate Network | Click tracking endpoints |
-| `domains.worklocal.dev` | Domain Steward | Domain management API |
+| `domains.worklocal.ai` | Domain Steward | Domain management API |
 | `msg.worklocal.dev` | Messaging Core | Contact & messaging API |
 | `creative.worklocal.dev` | Creative Generator | Template & variant API |
 | `offers.worklocal.dev` | Offer Creator | Offer blueprint API |
@@ -68,7 +68,7 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 | Service | URL | Database |
 |---------|-----|----------|
 | Affiliate Network | `trk.staging.worklocal.dev` | Neon staging branch |
-| Domain Steward | `domains.staging.worklocal.dev` | Neon staging branch |
+| Domain Steward | `domains.staging.worklocal.ai` | Neon staging branch |
 | Messaging Core | `msg.staging.worklocal.dev` | Neon staging branch |
 | Creative Generator | `creative.staging.worklocal.dev` | Neon staging branch |
 | Offer Creator | `offers.staging.worklocal.dev` | Neon staging branch |
@@ -79,7 +79,7 @@ Central reference for all WorkLocal Marketing Stack services, repositories, doma
 | Service | URL | Database |
 |---------|-----|----------|
 | Affiliate Network | `trk.worklocal.dev` | Neon production |
-| Domain Steward | `domains.worklocal.dev` | Neon production |
+| Domain Steward | `domains.worklocal.ai` | Neon production |
 | Messaging Core | `msg.worklocal.dev` | Neon production |
 | Creative Generator | `creative.worklocal.dev` | Neon production |
 | Offer Creator | `offers.worklocal.dev` | Neon production |
@@ -105,7 +105,7 @@ POSTBACK_SECRET=...
 
 # Service URLs
 MESSAGING_CORE_URL=https://msg.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.dev
+DOMAIN_STEWARD_URL=https://domains.worklocal.ai
 ```
 
 ### Domain Steward
@@ -136,7 +136,7 @@ VAPID_SUBJECT=mailto:push@worklocal.dev
 
 # Service URLs
 AFFILIATE_NETWORK_URL=https://trk.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.dev
+DOMAIN_STEWARD_URL=https://domains.worklocal.ai
 CREATIVE_GENERATOR_URL=https://creative.worklocal.dev
 ```
 
@@ -161,7 +161,7 @@ MESSAGING_CORE_URL=https://msg.worklocal.dev
 # Service URLs
 AFFILIATE_NETWORK_URL=https://trk.worklocal.dev
 CREATIVE_GENERATOR_URL=https://creative.worklocal.dev
-DOMAIN_STEWARD_URL=https://domains.worklocal.dev
+DOMAIN_STEWARD_URL=https://domains.worklocal.ai
 MESSAGING_CORE_URL=https://msg.worklocal.dev
 ```
 

@@ -7,12 +7,12 @@ It is designed so **humans and AI agents** can understand how the pieces fit tog
 
 | Service | Repository | Production Domain | Purpose |
 |---------|------------|-------------------|---------|
-| Affiliate Network | `github.com/worklocalinc/affiliate-network` | `trk.worklocal.dev` | Click/conversion tracking, revenue attribution |
-| Domain Steward | `github.com/worklocalinc/domain-steward` | `domains.worklocal.dev` | Domain inventory, DNS management |
-| Messaging Core | `github.com/worklocalinc/messaging-core` | `msg.worklocal.dev` | Contacts, email/push sending |
-| Creative Generator | `github.com/worklocalinc/creative-generator` | `creative.worklocal.dev` | Templates, AI creative generation |
-| Offer Creator | `github.com/worklocalinc/offer-creator` | `offers.worklocal.dev` | Offer blueprints, monetization flows |
-| Email Seeder | `github.com/worklocalinc/email-seeder` | `seeder.worklocal.dev` | Test emails, signup testing, QA |
+| Affiliate Network | `worklocalinc/AffiliateTracker` | `trk.worklocal.dev` | Click/conversion tracking, revenue attribution |
+| Domain Steward | `worklocalinc/domains.worklocal.ai` | `domains.worklocal.ai` | Domain inventory, DNS management |
+| Messaging Core | `work-local-inc/messigingcore` | `msg.worklocal.dev` | Contacts, email/push sending |
+| Creative Generator | `work-local-inc/creatives` | `creative.worklocal.dev` | Templates, AI creative generation |
+| Offer Creator | `work-local-inc/superaffiliatesystem` | `offers.worklocal.dev` | Offer blueprints, monetization flows |
+| Email Seeder | `work-local-inc/seed` | `seeder.worklocal.dev` | Test emails, signup testing, QA |
 
 > See `docs/repos-and-domains.md` for full domain inventory and environment details.
 
